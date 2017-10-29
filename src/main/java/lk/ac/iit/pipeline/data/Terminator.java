@@ -27,7 +27,7 @@ public class Terminator implements Runnable{
                         long endTime = System.currentTimeMillis();
 
                         double latency = latencyTotal/messageCount;
-                        long runTime = (endTime-startTime)/1000;
+                        double runTime = (endTime-startTime)/1000.0;
 
                         double throughput = messageCount/runTime;
                         System.out.println(" Latency : "+latency+" milli sec " +
