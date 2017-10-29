@@ -5,6 +5,7 @@ import lk.ac.iit.pipeline.data.Message;
 import lk.ac.iit.pipeline.data.Producer;
 import lk.ac.iit.pipeline.data.Terminator;
 
+import org.apache.commons.text.RandomStringGenerator;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
@@ -22,8 +23,12 @@ public class Main {
 
         //contribution from each stage to the string
         int charCount = messageSize/stageCount;
-        String charList = "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
-        charList = charList.substring(0, charCount);
+        RandomStringGenerator random =
+                new RandomStringGenerator.Builder()
+                        .withinRange('0', 'z')
+                        .build();
+        String charList = random.generate(charCount);
+
 
         //required queues
         LinkedBlockingQueue<Message> [] queues = new LinkedBlockingQueue[stageCount+1];
@@ -49,7 +54,7 @@ public class Main {
         Thread t2 = new Thread(prod);
         t2.start();
 
-        Terminator term = new Terminator(queues[stageCount]);
+        Terminator term = new Terminator(queues[stageCount], System.currentTimeMillis(), messageCount);
         Thread t1 = new Thread(term);
         t1.start();
 
