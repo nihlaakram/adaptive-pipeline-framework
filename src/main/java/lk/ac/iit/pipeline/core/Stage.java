@@ -9,11 +9,11 @@ public class Stage implements Runnable {
 
     private LinkedBlockingQueue<Message> inQueue;
     private LinkedBlockingQueue<Message> outQueue;
-    private int charCount;
+    private String charList;
+
 
 
     public void run() {
-
         while (true) {
 
 
@@ -30,7 +30,7 @@ public class Stage implements Runnable {
                         break;
                     } else {
                         //add content
-                        msg.addToMessage("Test");
+                        msg.addToMessage(this.charList);
 
                         //push it to outQueue
                         this.outQueue.put(msg);
@@ -50,10 +50,10 @@ public class Stage implements Runnable {
     }
 
 
-    public Stage(LinkedBlockingQueue<Message> inQueue, LinkedBlockingQueue<Message> outQueue, int charCount) {
+    public Stage(LinkedBlockingQueue<Message> inQueue, LinkedBlockingQueue<Message> outQueue, String charList) {
         this.inQueue = inQueue;
         this.outQueue = outQueue;
-        this.charCount = charCount;
+        this.charList = charList;
     }
 
 }

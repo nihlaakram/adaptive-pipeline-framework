@@ -10,7 +10,7 @@ public class Producer implements Runnable {
     public void run() {
         try {
             for (int i = 0; i < this.messageCount; i++) {
-                this.inQueue.put(new Message(System.currentTimeMillis(), "Hello : " + i));
+                this.inQueue.put(new Message(System.currentTimeMillis(), ""));
             }
             //terminating message
             this.inQueue.put(new Message(-1, null));

@@ -18,10 +18,12 @@ public class Main {
         int messageCount = Integer.parseInt(args[1]);
 
         //no of stages
-        int stageCount = Integer.parseInt(args[1]);
+        int stageCount = Integer.parseInt(args[2]);
 
         //contribution from each stage to the string
         int charCount = messageSize/stageCount;
+        String charList = "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
+        charList = charList.substring(0, charCount);
 
         //required queues
         LinkedBlockingQueue<Message> [] queues = new LinkedBlockingQueue[stageCount+1];
@@ -32,7 +34,7 @@ public class Main {
         //create the stages
         Stage [] stages = new Stage[stageCount];
         for(int i=0; i<5; i++){
-            stages[i] = new Stage(queues[i], queues[i+1], charCount);
+            stages[i] = new Stage(queues[i], queues[i+1], charList);
         }
 
         //start threads
