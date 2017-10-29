@@ -5,10 +5,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Terminator implements Runnable{
 
     private LinkedBlockingQueue<Message> inQueue;
+    private int messageCount;
+    private long startTime;
+
 
 
     public void run() {
 
+        long latencyTotal = 0;
         while (true) {
 
 
@@ -20,10 +24,19 @@ public class Terminator implements Runnable{
 
                     //check if last element
                     if (msg.getTimestamp() == -1) {
-                        System.out.println(System.currentTimeMillis() - msg.getTimestamp());
+                        long endTime = System.currentTimeMillis();
+
+                        double latency = latencyTotal/messageCount;
+                        long runTime = (endTime-startTime)/1000;
+
+                        double throughput = messageCount/runTime;
+                        System.out.println(" Latency : "+latency+" milli sec " +
+                                "\n TPS :"+throughput+" req per sec" +
+                                "\n Runtime :"+runTime+" s" +
+                                "\n Count : "+messageCount);
                         break;
                     } else {
-                        System.out.println(System.currentTimeMillis() - msg.getTimestamp());
+                        latencyTotal += (System.currentTimeMillis() - msg.getTimestamp());
 
                     }
 
@@ -37,7 +50,10 @@ public class Terminator implements Runnable{
     }
 
 
-    public Terminator(LinkedBlockingQueue<Message> inQueue) {
+    public Terminator(LinkedBlockingQueue<Message> inQueue, long startTime, int messageCount) {
         this.inQueue = inQueue;
+        this.startTime = startTime;
+        this.messageCount = messageCount;
+
     }
 }
